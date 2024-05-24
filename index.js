@@ -82,8 +82,13 @@ addUserForm.addEventListener('submit', async (e) => {
             drinks: 0
         });
         const newUser = { id: newUserRef.id, name: name, drinks: 0 };
-        allUsers.push(newUser);
-        updateFilteredUsers(document.getElementById('search-input').value);
+
+        // Check if the user already exists in the allUsers array
+        const userExists = allUsers.some(user => user.id === newUser.id);
+        if (!userExists) {
+            allUsers.push(newUser);
+            updateFilteredUsers(document.getElementById('search-input').value);
+        }
         nameInput.value = '';
     }
 });
