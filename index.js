@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
-import { getFirestore, collection, onSnapshot, doc, updateDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore.js";
+import { getFirestore, collection, onSnapshot, doc, updateDoc, addDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore.js";
 import firebaseConfig from './firebaseConfig.js';
 
 // Initialize Firebase
@@ -49,24 +49,24 @@ function handleSearchInput() {
 document.getElementById('search-input').addEventListener('input', handleSearchInput);
 
 // Function to increment drink count
-function incrementDrink(id) {
-    const userIndex = allUsers.findIndex((user) => user.id === id);
-    if (userIndex !== -1) {
-        const user = allUsers[userIndex];
-        const updatedUser = { ...user, drinks: user.drinks + 1 };
-        allUsers[userIndex] = updatedUser;
-        updateFilteredUsers(document.getElementById('search-input').value);
+async function incrementDrink(id) {
+    const userDocRef = doc(db, 'people', id);
+    const userDocSnapshot = await getDoc(userDocRef);
+    if (userDocSnapshot.exists()) {
+        const userData = userDocSnapshot.data();
+        const updatedDrinks = userData.drinks + 1;
+        await updateDoc(userDocRef, { drinks: updatedDrinks });
     }
 }
 
 // Function to decrement drink count
-function decrementDrink(id) {
-    const userIndex = allUsers.findIndex((user) => user.id === id);
-    if (userIndex !== -1) {
-        const user = allUsers[userIndex];
-        const updatedUser = { ...user, drinks: Math.max(user.drinks - 1, 0) };
-        allUsers[userIndex] = updatedUser;
-        updateFilteredUsers(document.getElementById('search-input').value);
+async function decrementDrink(id) {
+    const userDocRef = doc(db, 'people', id);
+    const userDocSnapshot = await getDoc(userDocRef);
+    if (userDocSnapshot.exists()) {
+        const userData = userDocSnapshot.data();
+        const updatedDrinks = Math.max(userData.drinks - 1, 0);
+        await updateDoc(userDocRef, { drinks: updatedDrinks });
     }
 }
 
