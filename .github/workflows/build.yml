@@ -16,10 +16,3 @@ jobs:
       - name: Inject Firebase Config
         run: |
           echo "const firebaseConfig = ${{secrets.FIREBASE_CONFIG}}; export default firebaseConfig;" > firebaseConfig.js
-
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.5
-        with:
-          branch: gh-pages
-          folder: build
-          token: ${{ secrets.GH_PAGES_TOKEN }}
