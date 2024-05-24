@@ -21,7 +21,7 @@ function renderFilteredUsers() {
         personRow.innerHTML = `
             <td>${person.name}</td>
             <td>${person.drinks}</td>
-            <td>€ ${(person.drinks * 0.7).toFixed(2)}</td>
+            <td>€ ${(person.drinks * 0.8).toFixed(2)}</td>
             <td class="actions">
                 <button class="increment-btn" data-id="${person.id}">+</button>
                 <button class="decrement-btn" data-id="${person.id}">-</button>
