@@ -15,5 +15,5 @@ jobs:
 
       - name: Inject Firebase Config
         run: |
-          echo "const firebaseConfig = process.env.FIREBASE_CONFIG; export default firebaseConfig;" > firebaseConfig.js
+          echo "const firebaseConfig = ${{ secrets.FIREBASE_CONFIG }}; export default firebaseConfig;" > firebaseConfig.js
 
