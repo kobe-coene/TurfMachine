@@ -12,6 +12,8 @@ const addUserForm = document.getElementById('add-user-form');
 // Define global arrays to store all users and filtered users
 let allUsers = [];
 let filteredUsers = [];
+let incrementInterval;
+let decrementInterval;
 
 // Function to render filtered users
 function renderFilteredUsers() {
@@ -104,15 +106,31 @@ onSnapshot(collection(db, 'people'), (snapshot) => {
 });
 
 // Event listener for increment and decrement buttons using event delegation
-document.getElementById('people-list').addEventListener('click', (event) => {
+document.getElementById('people-list').addEventListener('mousedown', (event) => {
     const target = event.target;
     if (target.classList.contains('increment-btn')) {
         const id = target.getAttribute('data-id');
-        incrementDrink(id);
+        incrementInterval = setInterval(() => incrementDrink(id), 200);
     } else if (target.classList.contains('decrement-btn')) {
         const id = target.getAttribute('data-id');
-        decrementDrink(id);
+        decrementInterval = setInterval(() => decrementDrink(id), 200);
     }
+});
+
+document.getElementById('people-list').addEventListener('mouseup', () => {
+    clearInterval(incrementInterval);
+});
+
+document.getElementById('people-list').addEventListener('mouseleave', () => {
+    clearInterval(incrementInterval);
+});
+
+document.getElementById('people-list').addEventListener('mouseup', () => {
+    clearInterval(decrementInterval);
+});
+
+document.getElementById('people-list').addEventListener('mouseleave', () => {
+    clearInterval(decrementInterval);
 });
 
 // Initial render
